@@ -84,12 +84,12 @@ export default function Contact({ onOrderGeneral, whatsappUrl }: ContactProps) {
                 <div className="space-y-3.5 max-w-xs mx-auto py-2">
                   <div className="flex items-center space-x-3 text-left bg-cream-white p-3.5 rounded-2xl border border-berry-pink/10 text-xs sm:text-sm text-gray-700">
                     <MapPin className="h-5 w-5 text-berry-purple flex-shrink-0" />
-                    <span className="font-medium">Osu Badu Street, East Legon, Accra</span>
+                    <span className="font-medium">ritz junction, North Legon, Accra</span>
                   </div>
                   
                   <div className="flex items-center space-x-3 text-left bg-cream-white p-3.5 rounded-2xl border border-berry-pink/10 text-xs sm:text-sm text-gray-700">
                     <Phone className="h-5 w-5 text-berry-purple flex-shrink-0" />
-                    <span className="font-medium font-mono">+233 550 30 3030</span>
+                    <span className="font-medium font-mono">+233 53 516 1549</span>
                   </div>
 
                   <div className="flex items-center space-x-3 text-left bg-cream-white p-3.5 rounded-2xl border border-berry-pink/10 text-xs sm:text-sm text-gray-700">
@@ -117,7 +117,7 @@ export default function Contact({ onOrderGeneral, whatsappUrl }: ContactProps) {
                   <Instagram className="h-4 w-4 text-rose-500" />
                   <span>Instagram:</span>
                   <a 
-                    href="https://instagram.com/berrydelacream" 
+                    href="https://instagram.com/berry_de_lacream" 
                     target="_blank" 
                     rel="noreferrer" 
                     className="text-berry-purple hover:underline"

@@ -1,6 +1,6 @@
 import { Product, Testimonial } from './types';
 
-export const WHATSAPP_NUMBER = "233550303030"; // Main Accra WhatsApp Number Placeholder (233XXXXXXXXX format)
+export const WHATSAPP_NUMBER = "233535161549"; // Main Accra WhatsApp Number Placeholder (233XXXXXXXXX format)
 
 export const PRODUCTS: Product[] = [
   {

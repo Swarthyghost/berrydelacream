@@ -40,7 +40,7 @@ export default function About() {
               <div className="space-y-4">
                 <div className="rounded-3xl overflow-hidden shadow-md aspect-square border border-berry-pink/20 bg-berry-pink/10">
                   <img 
-                    src="https://images.unsplash.com/photo-1501443762994-82bd5dace89a?auto=format&fit=crop&q=80&w=400" 
+                    src="/src/assets/images/mango.jpg" 
                     alt="Tropical vibe fruits" 
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
@@ -48,7 +48,7 @@ export default function About() {
                 </div>
                 <div className="rounded-3xl overflow-hidden shadow-md aspect-[3/4] border border-berry-pink/20 bg-berry-pink/10">
                   <img 
-                    src="/src/assets/images/strawberry_swirl_1781116317405.png" 
+                    src="/src/assets/images/perfait.jpg" 
                     alt="Artisan kitchen strawberry swirl" 
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
@@ -59,7 +59,7 @@ export default function About() {
               <div className="space-y-4 pt-8">
                 <div className="rounded-3xl overflow-hidden shadow-md aspect-[3/4] border border-berry-pink/20 bg-berry-pink/10">
                   <img 
-                    src="/src/assets/images/berry_blast_yoghurt_1781116347057.png" 
+                    src="/src/assets/images/bestseller.jpg" 
                     alt="Berry Blast Yoghurt details" 
                     className="w-full h-full object-cover font-sans"
                     referrerPolicy="no-referrer"
@@ -67,7 +67,7 @@ export default function About() {
                 </div>
                 <div className="rounded-3xl overflow-hidden shadow-md aspect-square border border-berry-pink/20 bg-berry-pink/10">
                   <img 
-                    src="/src/assets/images/mango_tropical_1781116331472.png" 
+                    src="/src/assets/images/watermelon.jpg" 
                     alt="Accra gold mango desserts" 
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
@@ -77,7 +77,7 @@ export default function About() {
             </div>
 
             {/* Floating Brand heart tag */}
-            <div className="absolute -bottom-6 -right-3 bg-berry-purple text-white p-5 rounded-2.5xl shadow-xl border border-white/20 select-none hidden sm:block max-w-[180px]">
+            <div className="absolute -bottom-6 -right-3 bg-white/10 backdrop-blur-lg text-white p-5 rounded-3xl shadow-2xl border border-white/40 select-none hidden sm:block max-w-[180px]">
               <div className="flex items-center space-x-2">
                 <Heart className="h-5 w-5 text-red-400 fill-rose-400 animate-pulse" />
                 <span className="font-serif font-black text-sm text-cream-white">Made with Pure Love</span>
