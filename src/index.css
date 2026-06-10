@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Poppins", system-ui, sans-serif;
+  --color-berry-pink: #F7C5D5;
+  --color-berry-purple: #6B2D5E;
+  --color-cream-white: #FFF8F0;
+  --color-fresh-green: #4CAF78;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #FFF8F0;
+  color: #6B2D5E;
+}
+
+/* Bold Typography Custom Classes */
+h1, h2, h3, h4, .logo-font {
+  font-family: var(--font-serif);
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #F7C5D5 0%, #FFF8F0 100%);
+}
+
+.product-card {
+  transition: transform 0.2s ease;
+  background-color: #FFF8F0;
+  border: 1px solid #F7C5D5;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.pill-tab {
+  border: 1.5px solid #6B2D5E;
+  padding: 4px 16px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+
+/* Smooth HTML scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbars for sliders if needed */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

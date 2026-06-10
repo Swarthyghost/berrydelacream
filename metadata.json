@@ -1,0 +1,6 @@
+{
+  "name": "Berry De Lacream",
+  "description": "Handcrafted ice cream, premium yoghurt, and fresh juices made with love in Accra, Ghana. Browse our menu and order directly via WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
