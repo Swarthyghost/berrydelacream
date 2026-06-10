@@ -41,7 +41,7 @@ export default function Footer({ onScrollToHome, whatsappUrl, onAdminClick }: Fo
             </a>
             
             <a
-              href="https://instagram.com/berry_de_lacream"
+              href="https://instagram.com/berry_de_lacreme"
               target="_blank"
               rel="noreferrer"
               className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white hover:scale-105 transition"
