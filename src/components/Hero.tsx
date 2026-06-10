@@ -13,7 +13,7 @@ const SLIDES = [
     subtitle: "Artisan Smooth Churn",
     desc: "Luxury fresh milk & cream churned slowly with a hand-reduced organic Accra strawberry glaze.",
     price: 45,
-    tag: "Signature Dish",
+    tag: "Signature Dessert",
     image: "/src/assets/images/strawberry_swirl_1781116317405.png"
   },
   {
@@ -29,7 +29,7 @@ const SLIDES = [
     subtitle: "Zesty & Refreshing Juice",
     desc: "Lively local Accra ginger pressed with juicy, organic pineapples. Restorative and pure.",
     price: 35,
-    tag: "Local Favorite",
+    tag: "Fresh Juice",
     image: "/src/assets/images/fresh_juices_tropical_1781116363046.png"
   }
 ];

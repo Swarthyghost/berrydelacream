@@ -84,7 +84,7 @@ export default function Contact({ onOrderGeneral, whatsappUrl }: ContactProps) {
                 <div className="space-y-3.5 max-w-xs mx-auto py-2">
                   <div className="flex items-center space-x-3 text-left bg-cream-white p-3.5 rounded-2xl border border-berry-pink/10 text-xs sm:text-sm text-gray-700">
                     <MapPin className="h-5 w-5 text-berry-purple flex-shrink-0" />
-                    <span className="font-medium">Ritz Junction, North Legon, Accra</span>
+                    <span className="font-medium">Nunoos Garden, North Legon, Accra</span>
                   </div>
                   
                   <div className="flex items-center space-x-3 text-left bg-cream-white p-3.5 rounded-2xl border border-berry-pink/10 text-xs sm:text-sm text-gray-700">
