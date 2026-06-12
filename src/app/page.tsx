@@ -207,15 +207,51 @@ export default function Storefront() {
       {/* ── Mobile Nav Drawer ──────────────────────────────────────────────── */}
       {mobileNavOpen && (
         <div className="fixed inset-0 z-[90] flex md:hidden">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setMobileNavOpen(false)} />
-          <div className="relative bg-white w-72 h-full flex flex-col shadow-2xl p-8 gap-8">
-            <div className="text-xl font-bold tracking-widest text-primary uppercase">Berry De Lacreme</div>
-            <nav className="flex flex-col gap-6 text-lg font-semibold">
-              <a href="#" onClick={() => setMobileNavOpen(false)} className="text-primary">Home</a>
-              <a href="#about" onClick={() => setMobileNavOpen(false)} className="hover:text-primary transition-colors">About</a>
-              <a href="#products" onClick={() => setMobileNavOpen(false)} className="hover:text-primary transition-colors">Menu</a>
-              <a href="#testimonials" onClick={() => setMobileNavOpen(false)} className="hover:text-primary transition-colors">Testimonials</a>
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setMobileNavOpen(false)} />
+          <div className="relative bg-white w-[85%] max-w-sm h-full flex flex-col shadow-2xl">
+            {/* Sidebar Header */}
+            <div className="flex items-center justify-between p-6 border-b border-outline-variant/30 bg-surface-container-lowest">
+              <div className="text-lg font-bold tracking-widest text-primary uppercase leading-tight">
+                Berry De<br/>Lacreme
+              </div>
+              <button 
+                onClick={() => setMobileNavOpen(false)} 
+                className="p-2 bg-surface-container-low rounded-full text-on-surface hover:bg-surface-container transition-colors"
+                aria-label="Close menu"
+              >
+                <span className="material-symbols-outlined block">close</span>
+              </button>
+            </div>
+            
+            {/* Sidebar Menu Items */}
+            <nav className="flex flex-col p-4 gap-2 flex-grow overflow-y-auto">
+              {[
+                { name: 'Home', href: '#', icon: 'home' },
+                { name: 'About', href: '#about', icon: 'info' },
+                { name: 'Menu', href: '#products', icon: 'restaurant_menu' },
+                { name: 'Testimonials', href: '#testimonials', icon: 'reviews' },
+              ].map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href} 
+                  onClick={() => setMobileNavOpen(false)} 
+                  className="flex items-center gap-4 p-4 rounded-2xl hover:bg-surface-container-low active:bg-surface-container transition-colors text-on-surface font-semibold text-lg"
+                >
+                  <span className="material-symbols-outlined text-primary opacity-80">{link.icon}</span>
+                  {link.name}
+                </a>
+              ))}
             </nav>
+
+            {/* Sidebar Footer */}
+            <div className="p-6 bg-surface-container-lowest border-t border-outline-variant/30 mt-auto">
+               <button 
+                 onClick={handleWhatsApp}
+                 className="w-full bg-[#25D366] text-white flex items-center justify-center gap-2 py-4 rounded-full font-bold shadow-[0_4px_14px_rgba(37,211,102,0.3)] hover:brightness-110 active:scale-95 transition-all">
+                 <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-2.335 0-4.241 1.906-4.241 4.241 0 .736.19 1.455.551 2.083l-.587 2.144 2.195-.576c.611.332 1.3.508 2.003.508 2.335 0 4.241-1.906 4.241-4.241s-1.906-4.159-4.162-4.159zm3.176 5.86c-.131.33-.765.639-1.047.681-.282.041-.634.073-1.895-.445-1.554-.64-2.553-2.22-2.63-2.321-.077-.101-.621-.825-.621-1.573 0-.748.388-1.116.527-1.261.139-.145.305-.181.408-.181s.204.004.294.009c.094.004.22-.036.344.257.131.311.451 1.096.49 1.176.039.08.066.173.013.282-.053.109-.08.188-.159.282-.08.094-.167.21-.239.282-.08.08-.164.167-.071.327.094.16.417.689.896 1.115.617.549 1.138.719 1.301.8.163.08.261.066.358-.045.097-.111.417-.487.527-.655.109-.168.22-.141.371-.086.151.055.955.451 1.12.534.164.083.274.124.313.19.041.066.041.381-.09.711zM12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.981-1.309A9.943 9.943 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.644 0-3.177-.477-4.469-1.3l-.32-.204-3.32.871.887-3.238-.225-.358A7.954 7.954 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+                 Message on WhatsApp
+               </button>
+            </div>
           </div>
         </div>
       )}
@@ -272,7 +308,7 @@ export default function Storefront() {
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <section className="relative w-full pt-28 sm:pt-32 pb-16 px-4 sm:px-8 md:px-16 max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-0 min-h-[85vh]">
         <div className="w-full md:w-1/2 flex flex-col z-10 text-center md:text-left items-center md:items-start">
-          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] font-extrabold text-primary mb-6 leading-[0.95] tracking-tighter">
+          <h1 className="text-[4rem] leading-[0.9] sm:text-7xl md:text-8xl lg:text-[10rem] font-extrabold text-primary mb-6 md:leading-[0.95] tracking-tighter">
             Fresh<br/>Parfaits
           </h1>
           <p className="text-on-surface-variant text-sm sm:text-base max-w-sm sm:max-w-md mb-8 leading-relaxed font-medium">
