@@ -336,6 +336,21 @@ export default function Storefront() {
         </div>
       </section>
 
+      {/* ── About Section ────────────────────────────────────────────────────── */}
+      <section id="about" className="w-full max-w-[1200px] mx-auto py-16 sm:py-24 px-4 sm:px-8 text-center scroll-mt-24">
+        <div className="max-w-3xl mx-auto space-y-6">
+          <span className="text-xs font-bold tracking-widest text-primary uppercase">Our Story</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-on-surface leading-tight">Crafting Nature's Best</h2>
+          <p className="text-on-surface-variant text-base sm:text-lg leading-relaxed">
+            At Berry De Lacreme, we believe that healthy indulgence shouldn't compromise on taste. 
+            Born out of a passion for fresh, artisanal craftsmanship, every parfait bowl and cold-pressed 
+            juice we serve is a testament to quality. We source the finest seasonal fruits, blend 
+            the creamiest yogurts, and press our juices without a single drop of added sugar or preservatives. 
+            Experience the pure, vibrant taste of nature — handcrafted fresh, just for you, every single day.
+          </p>
+        </div>
+      </section>
+
       {/* ── Feature 1: Sweetened Parfaits ──────────────────────────────────── */}
       <section className="w-full max-w-[1200px] mx-auto py-16 sm:py-24 px-4 sm:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16">
         <div className="w-full md:w-1/2 flex justify-center relative">
@@ -426,19 +441,20 @@ export default function Storefront() {
       </section>
 
       {/* ── Testimonials ────────────────────────────────────────────────────── */}
-      <section id="testimonials" className="w-full max-w-[1200px] mx-auto py-20 px-4 sm:px-8 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-12 text-on-surface">What Our Customers Say</h2>
-        <div className="flex flex-col sm:flex-row justify-center gap-10 sm:gap-16">
+      <section id="testimonials" className="w-full max-w-[1200px] mx-auto py-20 px-4 sm:px-8 text-center bg-surface-container-lowest sm:rounded-[3rem] my-10 sm:border border-outline-variant/30 sm:shadow-sm scroll-mt-24">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-14 text-on-surface">What Our Customers Say</h2>
+        <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-10 lg:gap-16 px-4">
           {[
             { name: 'Elizabeth Thomas', photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&q=80', quote: '"Highly recommended. The natural sweetness and rich texture is exactly what I was looking for. Perfect for a quick healthy breakfast!"' },
             { name: 'Chris William', photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80', quote: '"The best parfait I\'ve ever had. Fresh fruit with every bite. Will absolutely order again!"' },
-          ].map(t => (
-            <div key={t.name} className="flex flex-col items-center max-w-xs mx-auto">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-primary/20 p-1.5 mb-5">
-                <img src={t.photo} alt={t.name} className="w-full h-full object-cover rounded-full" />
+          ].map((t) => (
+            <div key={t.name} className="flex flex-col items-center max-w-sm mx-auto group bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-outline-variant/20 relative mt-6 md:mt-0">
+              <div className="absolute -top-6 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg font-serif text-4xl leading-none pt-4">"</div>
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-primary/10 p-1 mb-5 overflow-hidden group-hover:border-primary/40 transition-colors duration-500">
+                <img src={t.photo} alt={t.name} className="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-700" />
               </div>
-              <h4 className="font-bold text-base mb-2">{t.name}</h4>
-              <p className="text-sm text-on-surface-variant leading-relaxed">{t.quote}</p>
+              <h4 className="font-bold text-lg mb-3 text-on-surface">{t.name}</h4>
+              <p className="text-base text-on-surface-variant leading-relaxed italic">{t.quote}</p>
             </div>
           ))}
         </div>

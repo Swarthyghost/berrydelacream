@@ -7,10 +7,13 @@ import { Product } from '../../../types';
 export default function MenuManager() {
   const { products, deleteProduct, addProduct } = useProducts();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
     name: '',
     price: 0,
     category: 'Parfait',
+    segment: 'Sweetened',
+    size: '',
     description: '',
     image: '',
     badge: ''
@@ -30,9 +33,11 @@ export default function MenuManager() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newProduct.name && newProduct.price) {
+      setIsUploading(true);
       await addProduct(newProduct as Omit<Product, 'id'>);
+      setIsUploading(false);
       setIsModalOpen(false);
-      setNewProduct({ name: '', price: 0, category: 'Parfait', description: '', image: '', badge: '' });
+      setNewProduct({ name: '', price: 0, category: 'Parfait', segment: 'Sweetened', size: '', description: '', image: '', badge: '' });
     }
   };
 
@@ -85,7 +90,10 @@ export default function MenuManager() {
                       <span className="font-bold text-on-surface">{product.name}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-on-surface-variant">{product.category}</td>
+                  <td className="px-6 py-4 text-on-surface-variant">
+                    {product.category}
+                    {product.segment && <span className="block text-xs text-on-surface-variant opacity-70">{product.segment}</span>}
+                  </td>
                   <td className="px-6 py-4 font-price-display text-secondary">{product.price.toFixed(2)}</td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-2">
@@ -159,21 +167,52 @@ export default function MenuManager() {
                   <label className="font-label-md text-label-md text-on-surface-variant">Category</label>
                   <select 
                     value={newProduct.category}
-                    onChange={e => setNewProduct({...newProduct, category: e.target.value})}
+                    onChange={e => setNewProduct({...newProduct, category: e.target.value as any})}
                     className="w-full px-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none cursor-pointer">
-                    <option>Parfait</option>
-                    <option>Juice</option>
+                    <option value="Parfait">Parfait</option>
+                    <option value="Juice">Juice</option>
+                    <option value="Extras">Extras</option>
                   </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="font-label-md text-label-md text-on-surface-variant">Segment</label>
+                  <select 
+                    value={newProduct.segment}
+                    onChange={e => setNewProduct({...newProduct, segment: e.target.value as any})}
+                    className="w-full px-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none cursor-pointer">
+                    <option value="Sweetened">Sweetened (Parfait)</option>
+                    <option value="Unsweetened">Unsweetened (Parfait)</option>
+                    <option value="Single">Single (Juice)</option>
+                    <option value="Combo">Combo (Juice)</option>
+                    <option value="Extras">Extras</option>
+                  </select>
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="font-label-md text-label-md text-on-surface-variant">Size (Optional)</label>
+                  <input 
+                    value={newProduct.size || ''}
+                    onChange={e => setNewProduct({...newProduct, size: e.target.value})}
+                    className="w-full px-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="e.g. 500ml or Cup size 350ml" type="text" />
                 </div>
               </div>
               <div className="flex gap-4 pt-4">
                 <button 
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-6 py-3 border border-outline text-on-surface-variant rounded-xl font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">
+                  disabled={isUploading}
+                  className="flex-1 px-6 py-3 border border-outline text-on-surface-variant rounded-xl font-label-md text-label-md hover:bg-surface-container-high transition-colors disabled:opacity-50" type="button">
                   Cancel
                 </button>
-                <button className="flex-1 px-6 py-3 bg-primary text-white rounded-xl font-label-md text-label-md hover:opacity-90 transition-all active:scale-95" type="submit">
-                  Save Product
+                <button 
+                  disabled={isUploading}
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-label-md text-label-md hover:opacity-90 transition-all active:scale-95 disabled:opacity-70" type="submit">
+                  {isUploading ? (
+                    <>
+                      <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                      Saving & Uploading...
+                    </>
+                  ) : (
+                    'Save Product'
+                  )}
                 </button>
               </div>
             </form>
