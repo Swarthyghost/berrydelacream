@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Product } from '../types';
-import { db, storage } from '../firebase';
+import { db } from '../firebase';
 import { collection, doc, setDoc, deleteDoc, onSnapshot, query, addDoc, updateDoc } from 'firebase/firestore';
-import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -27,16 +26,24 @@ export function useProducts() {
   }, []);
 
   const uploadImage = async (base64Image: string, productId: string): Promise<string> => {
-    // If it's not a base64 data URL (e.g. already a firebase storage URL), just return it
+    // If it's not a base64 data URL (e.g. already a firebase/cloudinary URL), just return it
     if (!base64Image.startsWith('data:image')) {
       return base64Image;
     }
     
     try {
-      const imageRef = ref(storage, `product_images/${productId}_${Date.now()}`);
-      await uploadString(imageRef, base64Image, 'data_url');
-      const downloadURL = await getDownloadURL(imageRef);
-      return downloadURL;
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64Image, productId }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
+
+      const data = await response.json();
+      return data.url;
     } catch (error) {
       console.error("Error uploading image:", error);
       throw error;
