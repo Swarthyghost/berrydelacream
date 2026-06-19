@@ -31,30 +31,38 @@ export default function Login({ onBackToStore }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+    <div className="min-h-screen bg-[#FDFAF7] flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-[#d946ef]/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10">
         <button 
           onClick={onBackToStore}
-          className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-berry-purple text-white shadow-lg focus:outline-none mb-4 hover:scale-105 transition"
+          className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] border border-outline-variant/30 mb-8 hover:scale-105 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] transition-all duration-300 group"
+          aria-label="Back to store"
         >
-          <Package className="h-8 w-8" />
+          <div className="relative">
+            <span className="text-5xl filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300 block">🍦</span>
+            <span className="absolute -top-1 -right-3 text-lg text-red-500 animate-bounce">🍓</span>
+          </div>
         </button>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-stone-900 font-serif">
-          Admin Login
+        <h2 className="text-center text-4xl font-extrabold text-on-surface tracking-tight mb-3">
+          Admin Portal
         </h2>
-        <p className="mt-2 text-center text-sm text-stone-600">
-          Access the admin dashboard to input user name and password
+        <p className="text-center text-sm text-on-surface-variant max-w-xs mx-auto font-medium">
+          Sign in to manage Berry De Lacreme&apos;s storefront and operations.
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-2xl sm:px-10 border border-stone-200">
-          <form className="space-y-6" onSubmit={handleLogin}>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+        <div className="bg-white/80 backdrop-blur-2xl py-10 px-6 sm:px-10 shadow-[0_20px_60px_rgba(0,0,0,0.04)] sm:rounded-[2rem] border border-white">
+          <form className="space-y-7" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-stone-700">
-                Email address
+              <label htmlFor="email" className="block text-sm font-bold text-on-surface mb-2.5">
+                Email Address
               </label>
-              <div className="mt-1">
+              <div className="relative">
                 <input
                   id="email"
                   name="email"
@@ -63,16 +71,17 @@ export default function Login({ onBackToStore }: LoginProps) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-4 py-3 border border-stone-300 rounded-xl shadow-sm placeholder-stone-400 focus:outline-none focus:ring-berry-purple focus:border-berry-purple sm:text-sm"
+                  className="appearance-none block w-full px-5 py-4 bg-surface-container-lowest border border-outline-variant/40 rounded-2xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm font-medium text-on-surface"
+                  placeholder="admin@berrydelacreme.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-stone-700">
+              <label htmlFor="password" className="block text-sm font-bold text-on-surface mb-2.5">
                 Password
               </label>
-              <div className="mt-1">
+              <div className="relative">
                 <input
                   id="password"
                   name="password"
@@ -81,35 +90,56 @@ export default function Login({ onBackToStore }: LoginProps) {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-4 py-3 border border-stone-300 rounded-xl shadow-sm placeholder-stone-400 focus:outline-none focus:ring-berry-purple focus:border-berry-purple sm:text-sm"
+                  className="appearance-none block w-full px-5 py-4 bg-surface-container-lowest border border-outline-variant/40 rounded-2xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm font-medium text-on-surface"
+                  placeholder="••••••••"
                 />
               </div>
             </div>
 
             {error && (
-              <div className="rounded-xl bg-red-50 p-4 border border-red-200">
-                <div className="flex">
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-800">Login Failed</h3>
-                    <div className="mt-2 text-sm text-red-700">
-                      <p>{error}</p>
-                    </div>
+              <div className="rounded-2xl bg-red-50 p-4 border border-red-100 shadow-sm animate-in fade-in zoom-in-95 duration-200">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 bg-red-100 p-1.5 rounded-full text-red-600 mt-0.5">
+                    <span className="material-symbols-outlined text-sm block">error</span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-red-800">Authentication Failed</h3>
+                    <p className="text-xs text-red-600 mt-1 font-medium leading-relaxed">{error}</p>
                   </div>
                 </div>
               </div>
             )}
 
-            <div>
+            <div className="pt-2">
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white ${isLoading ? 'bg-stone-400' : 'bg-berry-purple hover:bg-berry-purple/90'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-berry-purple transition`}
+                className={`w-full flex justify-center items-center py-4 px-4 rounded-2xl text-sm font-bold text-white transition-all duration-200 ${
+                  isLoading 
+                    ? 'bg-outline opacity-70 cursor-not-allowed shadow-none' 
+                    : 'bg-primary hover:brightness-110 active:scale-95 shadow-[0_8px_20px_rgba(82,163,68,0.25)] hover:shadow-[0_12px_24px_rgba(82,163,68,0.35)]'
+                }`}
               >
-                {isLoading ? 'Signing in...' : 'Sign in'}
-                {!isLoading && <Lock className="ml-2 h-5 w-5" />}
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/20 border-t-white"></span>
+                    Authenticating...
+                  </span>
+                ) : (
+                  <>
+                    Sign In Securely
+                    <Lock className="ml-2 h-4 w-4 opacity-80" />
+                  </>
+                )}
               </button>
             </div>
           </form>
+        </div>
+        
+        {/* Footer info */}
+        <div className="mt-10 text-center flex items-center justify-center gap-2 text-xs font-bold text-on-surface-variant/50 uppercase tracking-widest">
+          <Lock className="w-3 h-3" />
+          Secured Portal
         </div>
       </div>
     </div>
