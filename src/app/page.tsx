@@ -551,7 +551,7 @@ export default function Storefront() {
           <span className="text-xs font-bold tracking-widest text-primary uppercase mb-3">100% Natural</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-on-surface mb-5 leading-tight">Fresh<br/>Cold-Pressed Juices</h2>
           <p className="text-on-surface-variant mb-7 max-w-sm text-sm sm:text-base">
-            Revitalize with our 100% cold-pressed juices and exotic combos. No added sugar — just pure fruits bursting with flavour. Singles from GH₵25 · Combos from GH₵25.
+            Revitalize with our 100% cold-pressed juices and exotic combos. No added sugar — just pure fruits bursting with flavour. Singles from GH₵25 · Combos from GH₵30.
           </p>
           <a href="#products" className="bg-secondary text-white px-8 py-3 rounded-full font-bold hover:brightness-110 active:scale-95 transition-all shadow-md">
             Explore Juices
