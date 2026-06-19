@@ -223,8 +223,8 @@ export default function Storefront() {
 
   // ─── Cart Panel (shared between mobile drawer & desktop sidebar) ──────────
   const renderCartPanel = () => (
-    <div className="flex flex-col h-full">
-      <div className="p-5 border-b border-outline-variant/30 flex items-center justify-between">
+    <div className="flex flex-col flex-1 min-h-0 w-full">
+      <div className="p-5 border-b border-outline-variant/30 flex items-center justify-between flex-shrink-0">
         <h3 className="font-bold text-lg flex items-center gap-2">
           <span className="material-symbols-outlined text-primary">shopping_bag</span>
           Your Basket
@@ -239,7 +239,7 @@ export default function Storefront() {
         </button>
       </div>
 
-      <div className="flex-grow overflow-y-auto p-5 flex flex-col gap-4">
+      <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4 min-h-0">
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-on-surface-variant/50 py-10">
             <span className="material-symbols-outlined text-6xl mb-3">shopping_cart</span>
@@ -270,7 +270,7 @@ export default function Storefront() {
         )}
       </div>
 
-      <div className="p-5 bg-surface-container-low border-t border-outline-variant/10">
+      <div className="p-5 bg-surface-container-low border-t border-outline-variant/10 flex-shrink-0">
         <div className="flex justify-between items-center mb-2">
           <span className="text-on-surface-variant font-medium text-sm">Subtotal</span>
           <span className="font-bold text-lg text-on-surface">GH₵{subtotal.toFixed(2)}</span>
@@ -487,7 +487,7 @@ export default function Storefront() {
             Fresh<br/>Parfaits
           </h1>
           <p className="text-on-surface-variant text-sm sm:text-base max-w-sm sm:max-w-md mb-8 leading-relaxed font-medium">
-            Experience the perfect blend of rich creamy yogurt, fresh succulent fruits, and our signature crunchy granola — handcrafted daily for your ultimate refreshment.
+            Experience the perfect blend of rich, creamy parfaits layered with fresh yogurt, juicy berries, and crunchy nuts, paired with our signature fresh juices, handcrafted daily for your ultimate refreshment.
           </p>
           <div className="flex flex-wrap items-center gap-3 justify-center md:justify-start">
             <button
@@ -609,7 +609,7 @@ export default function Storefront() {
 
         {/* Desktop sticky cart sidebar */}
         <aside id="cart-section" className="hidden md:block w-full lg:w-[360px] shrink-0">
-          <div className="sticky top-24 bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.07)] border border-outline-variant/20 overflow-hidden" style={{ maxHeight: 'calc(100vh - 7rem)' }}>
+          <div className="sticky top-24 bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.07)] border border-outline-variant/20 overflow-hidden flex flex-col" style={{ maxHeight: 'calc(100vh - 7rem)' }}>
             {renderCartPanel()}
           </div>
         </aside>

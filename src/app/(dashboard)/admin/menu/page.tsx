@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { useProducts } from '../../../hooks/useProducts';
-import { Product } from '../../../types';
+import { useProducts } from '../../../../hooks/useProducts';
+import { Product } from '../../../../types';
 
 type ProductFormData = Omit<Product, 'id'>;
 

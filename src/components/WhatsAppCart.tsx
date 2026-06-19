@@ -46,11 +46,11 @@ export default function WhatsAppCart({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-cream-white shadow-2xl z-50 border-l border-berry-pink/30 flex flex-col justify-between"
+            className="fixed right-0 top-0 bottom-0 h-[100dvh] w-full max-w-md bg-cream-white shadow-2xl z-50 border-l border-berry-pink/30 flex flex-col overflow-hidden"
             id="cart-drawer-panel"
           >
             {/* Drawer Header */}
-            <div className="p-5 border-b border-berry-pink/20 bg-white flex items-center justify-between">
+            <div className="p-5 border-b border-berry-pink/20 bg-white flex items-center justify-between flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <div className="p-2 bg-berry-pink/20 rounded-xl text-berry-purple">
                   <ShoppingBag className="h-5 w-5" />
@@ -72,7 +72,7 @@ export default function WhatsAppCart({
             </div>
 
             {/* Middle List items body */}
-            <div className="flex-grow overflow-y-auto p-5 space-y-4 no-scrollbar bg-cream-white/50">
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 no-scrollbar bg-cream-white/50 min-h-0">
               {cartItems.length > 0 ? (
                 <>
                   <div className="flex justify-between items-center pb-2 border-b border-berry-pink/10">
@@ -177,7 +177,7 @@ Please confirm availability and delivery to [location].`}
 
             {/* Footer Summary & Checkout */}
             {cartItems.length > 0 && (
-              <div className="p-5 border-t border-berry-pink/20 bg-white">
+              <div className="p-5 border-t border-berry-pink/20 bg-white flex-shrink-0">
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between items-center text-xs text-gray-500 font-medium">
                     <span>Menu Items Churn:</span>

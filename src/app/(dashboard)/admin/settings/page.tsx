@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { useSettings } from '../../../hooks/useSettings';
-import { PromoCode } from '../../../types';
+import { useSettings } from '../../../../hooks/useSettings';
+import { PromoCode } from '../../../../types';
 
 export default function SettingsPage() {
   const { globalSettings, promoCodes, loading, updateGlobalSettings, addOrUpdatePromoCode, deletePromoCode } = useSettings();
