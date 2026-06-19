@@ -22,3 +22,15 @@ export interface Testimonial {
   comment: string;
   rating: number;
 }
+
+export interface PromoCode {
+  id: string; // The promo code string, e.g. "BERRY10"
+  type: 'percentage' | 'fixed';
+  value: number; // e.g. 10 for 10%, or 5 for GH₵5
+  active: boolean;
+}
+
+export interface GlobalSettings {
+  salesNotificationEnabled: boolean;
+  salesNotificationText: string;
+}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Package, Lock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface LoginProps {
   onBackToStore: () => void;
@@ -12,6 +13,7 @@ export default function Login({ onBackToStore }: LoginProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ export default function Login({ onBackToStore }: LoginProps) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // If successful, onAuthStateChanged in App.tsx will detect the login
+      router.push('/admin/menu');
     } catch (err: any) {
       setError(err.message || 'Failed to login. Please check your credentials.');
     } finally {

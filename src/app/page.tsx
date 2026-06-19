@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useProducts } from '../hooks/useProducts';
-import { Product, CartItem } from '../types';
+import { useSettings } from '../hooks/useSettings';
+import { Product, CartItem, PromoCode } from '../types';
 import { Instagram } from 'lucide-react';
 
 const GHANA_REVIEWS = [
@@ -97,7 +98,11 @@ export default function Storefront() {
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [flyingItems, setFlyingItems] = useState<{id: string, startX: number, startY: number, endX: number, endY: number, image: string}[]>([]);
   const [checkoutForm, setCheckoutForm] = useState({ name: '', phone: '', location: '' });
+  const [promoInput, setPromoInput] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
+  
   const { products } = useProducts();
+  const { globalSettings, promoCodes } = useSettings();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -166,6 +171,33 @@ export default function Storefront() {
   const clearCart = () => setCartItems([]);
   const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  
+  let discountAmount = 0;
+  if (appliedPromo) {
+    if (appliedPromo.type === 'percentage') {
+      discountAmount = subtotal * (appliedPromo.value / 100);
+    } else {
+      discountAmount = appliedPromo.value;
+    }
+  }
+  const finalTotal = Math.max(0, subtotal - discountAmount);
+
+  const handleApplyPromo = () => {
+    const code = promoInput.toUpperCase().trim();
+    if (!code) return;
+    const found = promoCodes.find(p => p.id === code && p.active);
+    if (found) {
+      setAppliedPromo(found);
+    } else {
+      alert("Invalid or inactive promo code.");
+      setAppliedPromo(null);
+    }
+  };
+
+  const removePromo = () => {
+    setAppliedPromo(null);
+    setPromoInput('');
+  };
 
   const heroProduct = products[0];
 
@@ -184,7 +216,8 @@ export default function Storefront() {
     }
     const waNumber = '233535161549';
     const lines = cartItems.map(i => `• ${i.product.name} x${i.quantity} — GH₵${i.product.price * i.quantity}`).join('\n');
-    const msg = encodeURIComponent(`Hello Berry De Lacreme! 🍓\n\nI'd like to place an order.\n\n*Customer Details:*\nName: ${checkoutForm.name}\nPhone: ${checkoutForm.phone}\nLocation: ${checkoutForm.location}\n\n*Order Details:*\n${lines}\n\n*Total: GH₵${subtotal}*`);
+    const discountLine = appliedPromo ? `\nDiscount (${appliedPromo.id}): -GH₵${discountAmount.toFixed(2)}` : '';
+    const msg = encodeURIComponent(`Hello Berry De Lacreme! 🍓\n\nI'd like to place an order.\n\n*Customer Details:*\nName: ${checkoutForm.name}\nPhone: ${checkoutForm.phone}\nLocation: ${checkoutForm.location}\n\n*Order Details:*\n${lines}${discountLine}\n\n*Total: GH₵${finalTotal.toFixed(2)}*`);
     window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
   };
 
@@ -238,9 +271,39 @@ export default function Storefront() {
       </div>
 
       <div className="p-5 bg-surface-container-low border-t border-outline-variant/10">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-2">
           <span className="text-on-surface-variant font-medium text-sm">Subtotal</span>
-          <span className="font-bold text-xl text-on-surface">GH₵{subtotal}</span>
+          <span className="font-bold text-lg text-on-surface">GH₵{subtotal.toFixed(2)}</span>
+        </div>
+        
+        {cartItems.length > 0 && (
+          <div className="mb-4 space-y-2">
+            {!appliedPromo ? (
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  placeholder="Promo Code" 
+                  value={promoInput}
+                  onChange={(e) => setPromoInput(e.target.value)}
+                  className="w-full px-3 py-2 text-sm border border-outline-variant/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary uppercase bg-white"
+                />
+                <button onClick={handleApplyPromo} className="bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:brightness-110 active:scale-95 transition-all">Apply</button>
+              </div>
+            ) : (
+              <div className="flex justify-between items-center bg-green-50 text-green-700 px-3 py-2 rounded-lg text-sm border border-green-200">
+                <span className="font-bold">{appliedPromo.id} applied!</span>
+                <div className="flex items-center gap-3">
+                  <span className="font-bold">-GH₵{discountAmount.toFixed(2)}</span>
+                  <button onClick={removePromo} className="text-red-500 material-symbols-outlined text-sm hover:scale-110 transition-transform">close</button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-on-surface-variant font-bold text-base">Total</span>
+          <span className="font-bold text-2xl text-primary">GH₵{finalTotal.toFixed(2)}</span>
         </div>
         
         {cartItems.length > 0 && (
@@ -291,7 +354,8 @@ export default function Storefront() {
   );
 
   return (
-    <div className="relative bg-white text-on-surface min-h-screen overflow-x-hidden">
+    <div className="relative bg-white text-on-surface min-h-screen overflow-x-clip">
+
 
       {/* ── Mobile Cart Drawer (slides up from bottom) ─────────────────────── */}
       {mobileCartOpen && (
@@ -355,8 +419,18 @@ export default function Storefront() {
         </div>
       )}
 
-      {/* ── Sticky Top Nav ─────────────────────────────────────────────────── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 md:px-16 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-outline-variant/10 shadow-sm">
+      {/* ── Fixed Header (Banner + Nav) ─────────────────────────────────── */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col w-full">
+        {/* ── Global Sales Notification Banner ─────────────────────────────── */}
+        {globalSettings?.salesNotificationEnabled && globalSettings?.salesNotificationText && (
+          <div className="bg-primary text-white py-2 overflow-hidden flex items-center shadow-md">
+            <div className="animate-marquee whitespace-nowrap text-sm font-bold px-4">
+              {globalSettings.salesNotificationText}
+            </div>
+          </div>
+        )}
+
+        <nav className="w-full py-4 px-4 sm:px-8 md:px-16 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-outline-variant/10 shadow-sm">
         {/* Hamburger — mobile only */}
         <button
           onClick={() => setMobileNavOpen(true)}
@@ -404,9 +478,10 @@ export default function Storefront() {
           </button>
         </div>
       </nav>
+      </div>
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="relative w-full pt-28 sm:pt-32 pb-16 px-4 sm:px-8 md:px-16 max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-0 min-h-[85vh]">
+      <section className="relative w-full pt-32 sm:pt-40 pb-16 px-4 sm:px-8 md:px-16 max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-0 min-h-[85vh]">
         <div className="w-full md:w-1/2 flex flex-col z-10 text-center md:text-left items-center md:items-start">
           <h1 className="text-[5rem] leading-[0.85] sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[13rem] font-black text-primary mb-6 md:leading-[0.85] tracking-tighter drop-shadow-2xl">
             Fresh<br/>Parfaits
