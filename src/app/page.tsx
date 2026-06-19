@@ -95,6 +95,7 @@ export default function Storefront() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [flyingItems, setFlyingItems] = useState<{id: string, startX: number, startY: number, endX: number, endY: number, image: string}[]>([]);
+  const [checkoutForm, setCheckoutForm] = useState({ name: '', phone: '', location: '' });
   const { products } = useProducts();
 
   useEffect(() => {
@@ -176,9 +177,13 @@ export default function Storefront() {
   // WhatsApp checkout builder
   const handleWhatsApp = () => {
     if (cartItems.length === 0) return;
+    if (!checkoutForm.name || !checkoutForm.phone || !checkoutForm.location) {
+      alert("Please fill out all checkout details (Name, Phone, Location) before proceeding.");
+      return;
+    }
     const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '233000000000';
     const lines = cartItems.map(i => `• ${i.product.name} x${i.quantity} — GH₵${i.product.price * i.quantity}`).join('\n');
-    const msg = encodeURIComponent(`Hello Berry De Lacreme! 🍓\n\nI'd like to order:\n${lines}\n\nTotal: GH₵${subtotal}`);
+    const msg = encodeURIComponent(`Hello Berry De Lacreme! 🍓\n\nI'd like to place an order.\n\n*Customer Details:*\nName: ${checkoutForm.name}\nPhone: ${checkoutForm.phone}\nLocation: ${checkoutForm.location}\n\n*Order Details:*\n${lines}\n\n*Total: GH₵${subtotal}*`);
     window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
   };
 
@@ -236,12 +241,44 @@ export default function Storefront() {
           <span className="text-on-surface-variant font-medium text-sm">Subtotal</span>
           <span className="font-bold text-xl text-on-surface">GH₵{subtotal}</span>
         </div>
+        
+        {cartItems.length > 0 && (
+          <div className="flex flex-col gap-3 mb-4">
+            <input
+              type="text"
+              placeholder="Your Name *"
+              value={checkoutForm.name}
+              onChange={(e) => setCheckoutForm({ ...checkoutForm, name: e.target.value })}
+              className="w-full px-4 py-2.5 text-sm border border-outline-variant/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            />
+            <input
+              type="tel"
+              placeholder="Your Phone Number *"
+              value={checkoutForm.phone}
+              onChange={(e) => setCheckoutForm({ ...checkoutForm, phone: e.target.value })}
+              className="w-full px-4 py-2.5 text-sm border border-outline-variant/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            />
+            <input
+              type="text"
+              placeholder="Delivery Location *"
+              value={checkoutForm.location}
+              onChange={(e) => setCheckoutForm({ ...checkoutForm, location: e.target.value })}
+              className="w-full px-4 py-2.5 text-sm border border-outline-variant/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            />
+          </div>
+        )}
+
         <button
           onClick={handleWhatsApp}
-          className="w-full bg-[#25D366] text-white flex items-center justify-center gap-2 py-4 rounded-full font-bold shadow-lg hover:brightness-110 active:scale-95 transition-all mb-3"
+          disabled={cartItems.length === 0 || !checkoutForm.name || !checkoutForm.phone || !checkoutForm.location}
+          className={`w-full flex items-center justify-center gap-2 py-4 rounded-full font-bold shadow-lg transition-all mb-3 text-white ${
+            cartItems.length === 0 || !checkoutForm.name || !checkoutForm.phone || !checkoutForm.location
+              ? 'bg-outline-variant cursor-not-allowed opacity-50'
+              : 'bg-[#25D366] hover:brightness-110 active:scale-95'
+          }`}
         >
           <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-2.335 0-4.241 1.906-4.241 4.241 0 .736.19 1.455.551 2.083l-.587 2.144 2.195-.576c.611.332 1.3.508 2.003.508 2.335 0 4.241-1.906 4.241-4.241s-1.906-4.159-4.162-4.159zm3.176 5.86c-.131.33-.765.639-1.047.681-.282.041-.634.073-1.895-.445-1.554-.64-2.553-2.22-2.63-2.321-.077-.101-.621-.825-.621-1.573 0-.748.388-1.116.527-1.261.139-.145.305-.181.408-.181s.204.004.294.009c.094.004.22-.036.344.257.131.311.451 1.096.49 1.176.039.08.066.173.013.282-.053.109-.08.188-.159.282-.08.094-.167.21-.239.282-.08.08-.164.167-.071.327.094.16.417.689.896 1.115.617.549 1.138.719 1.301.8.163.08.261.066.358-.045.097-.111.417-.487.527-.655.109-.168.22-.141.371-.086.151.055.955.451 1.12.534.164.083.274.124.313.19.041.066.041.381-.09.711zM12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.981-1.309A9.943 9.943 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.644 0-3.177-.477-4.469-1.3l-.32-.204-3.32.871.887-3.238-.225-.358A7.954 7.954 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-          Order via WhatsApp
+          Proceed to Order
         </button>
         {cartItems.length > 0 && (
           <button onClick={clearCart} className="w-full text-center text-on-surface-variant hover:text-red-500 transition-colors text-sm font-bold">
