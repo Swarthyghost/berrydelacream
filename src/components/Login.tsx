@@ -31,33 +31,33 @@ export default function Login({ onBackToStore }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFAF7] flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-[#FDFAF7] flex flex-col justify-center py-12 px-5 sm:px-6 lg:px-8 font-sans relative overflow-hidden">
       {/* Background decorations */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-[#d946ef]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] bg-[#d946ef]/5 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10">
+      <div className="w-full max-w-md mx-auto text-center relative z-10">
         <button 
           onClick={onBackToStore}
-          className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] border border-outline-variant/30 mb-8 hover:scale-105 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] transition-all duration-300 group"
+          className="mx-auto flex items-center justify-center h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] border border-outline-variant/30 mb-6 sm:mb-8 hover:scale-105 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] transition-all duration-300 group"
           aria-label="Back to store"
         >
           <div className="relative">
-            <span className="text-5xl filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300 block">🍦</span>
-            <span className="absolute -top-1 -right-3 text-lg text-red-500 animate-bounce">🍓</span>
+            <span className="text-4xl sm:text-5xl filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300 block">🍦</span>
+            <span className="absolute -top-1 -right-2 sm:-right-3 text-base sm:text-lg text-red-500 animate-bounce">🍓</span>
           </div>
         </button>
-        <h2 className="text-center text-4xl font-extrabold text-on-surface tracking-tight mb-3">
+        <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-on-surface tracking-tight mb-2 sm:mb-3">
           Admin Portal
         </h2>
-        <p className="text-center text-sm text-on-surface-variant max-w-xs mx-auto font-medium">
+        <p className="text-center text-sm text-on-surface-variant max-w-xs mx-auto font-medium px-4">
           Sign in to manage Berry De Lacreme&apos;s storefront and operations.
         </p>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div className="bg-white/80 backdrop-blur-2xl py-10 px-6 sm:px-10 shadow-[0_20px_60px_rgba(0,0,0,0.04)] sm:rounded-[2rem] border border-white">
-          <form className="space-y-7" onSubmit={handleLogin}>
+      <div className="mt-8 sm:mt-10 w-full max-w-md mx-auto relative z-10">
+        <div className="bg-white/80 backdrop-blur-2xl py-8 px-6 sm:py-10 sm:px-10 shadow-[0_20px_60px_rgba(0,0,0,0.04)] rounded-[2rem] border border-white">
+          <form className="space-y-6 sm:space-y-7" onSubmit={handleLogin}>
             <div>
               <label htmlFor="email" className="block text-sm font-bold text-on-surface mb-2.5">
                 Email Address
