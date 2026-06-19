@@ -188,7 +188,7 @@ export default function Storefront() {
   };
 
   // ─── Cart Panel (shared between mobile drawer & desktop sidebar) ──────────
-  const CartPanel = () => (
+  const renderCartPanel = () => (
     <div className="flex flex-col h-full">
       <div className="p-5 border-b border-outline-variant/30 flex items-center justify-between">
         <h3 className="font-bold text-lg flex items-center gap-2">
@@ -297,7 +297,7 @@ export default function Storefront() {
         <div className="fixed inset-0 z-[100] flex flex-col justify-end md:hidden">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setMobileCartOpen(false)} />
           <div className="relative bg-white rounded-t-3xl h-[85vh] flex flex-col shadow-2xl">
-            <CartPanel />
+            {renderCartPanel()}
           </div>
         </div>
       )}
@@ -534,7 +534,7 @@ export default function Storefront() {
         {/* Desktop sticky cart sidebar */}
         <aside id="cart-section" className="hidden md:block w-full lg:w-[360px] shrink-0">
           <div className="sticky top-24 bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.07)] border border-outline-variant/20 overflow-hidden" style={{ maxHeight: 'calc(100vh - 7rem)' }}>
-            <CartPanel />
+            {renderCartPanel()}
           </div>
         </aside>
       </section>
