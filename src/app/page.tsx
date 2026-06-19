@@ -182,7 +182,7 @@ export default function Storefront() {
       alert("Please fill out all checkout details (Name, Phone, Location) before proceeding.");
       return;
     }
-    const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '233000000000';
+    const waNumber = '233535161549';
     const lines = cartItems.map(i => `• ${i.product.name} x${i.quantity} — GH₵${i.product.price * i.quantity}`).join('\n');
     const msg = encodeURIComponent(`Hello Berry De Lacreme! 🍓\n\nI'd like to place an order.\n\n*Customer Details:*\nName: ${checkoutForm.name}\nPhone: ${checkoutForm.phone}\nLocation: ${checkoutForm.location}\n\n*Order Details:*\n${lines}\n\n*Total: GH₵${subtotal}*`);
     window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
