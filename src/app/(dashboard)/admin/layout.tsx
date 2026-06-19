@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user && user.email?.toLowerCase() === 'patiencexavier66@gamil.com') {
+      if (user && user.email?.toLowerCase() === 'patiencexavier66@gmail.com') {
         setAuthorized(true);
       } else {
         // Redirect unauthorized users
