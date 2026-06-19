@@ -56,10 +56,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <span className="material-symbols-outlined">settings</span>
             <span className="font-label-md text-label-md">Site Settings</span>
           </a>
-          <a className="text-on-surface-variant hover:bg-surface-container-high mx-2 rounded-lg flex items-center gap-3 px-4 py-3 cursor-pointer transition-all mt-2" href="/admin/orders">
-            <span className="material-symbols-outlined">receipt_long</span>
-            <span className="font-label-md text-label-md">Order Management</span>
-          </a>
+
           <a className="text-on-surface-variant hover:bg-surface-container-high mx-2 rounded-lg flex items-center gap-3 px-4 py-3 cursor-pointer transition-all mt-2 border-t border-outline-variant/20" href="/">
             <span className="material-symbols-outlined">storefront</span>
             <span className="font-label-md text-label-md">Go to Storefront</span>
@@ -89,10 +86,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <p className="text-label-md text-on-surface-variant">Welcome back, Berry Admin</p>
           </div>
           <div className="flex items-center gap-4">
-            <div className="relative">
-              <span className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-all">notifications</span>
-              <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
-            </div>
           </div>
         </header>
 
