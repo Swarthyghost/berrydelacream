@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { Package, Lock } from 'lucide-react';
+import { Package, Lock, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface LoginProps {
@@ -11,6 +11,7 @@ interface LoginProps {
 export default function Login({ onBackToStore }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -85,14 +86,26 @@ export default function Login({ onBackToStore }: LoginProps) {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-5 py-4 bg-surface-container-lowest border border-outline-variant/40 rounded-2xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm font-medium text-on-surface"
+                  className="appearance-none block w-full pl-5 pr-12 py-4 bg-surface-container-lowest border border-outline-variant/40 rounded-2xl shadow-sm placeholder-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm font-medium text-on-surface"
                   placeholder="••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant hover:text-primary transition-colors focus:outline-none"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-5 w-5" aria-hidden="true" />
+                  )}
+                </button>
               </div>
             </div>
 
