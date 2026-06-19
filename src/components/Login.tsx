@@ -43,7 +43,7 @@ export default function Login({ onBackToStore }: LoginProps) {
           Admin Login
         </h2>
         <p className="mt-2 text-center text-sm text-stone-600">
-          Secure access to Berry De Lacream management.
+          Access the admin dashboard to input user name and password
         </p>
       </div>
 
