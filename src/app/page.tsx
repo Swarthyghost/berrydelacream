@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useProducts } from '../hooks/useProducts';
 import { Product, CartItem } from '../types';
+import { Instagram } from 'lucide-react';
 
 const GHANA_REVIEWS = [
   { name: 'Kwame Mensah', location: 'Osu', quote: '"The best parfait I\'ve ever had. Fresh fruit with every bite. Will absolutely order again!"' },
@@ -557,7 +558,16 @@ export default function Storefront() {
       </section>
 
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
-      <footer className="w-full py-8 px-4 border-t border-outline-variant/30 text-center text-sm text-on-surface-variant">
+      <footer className="w-full py-8 px-4 border-t border-outline-variant/30 text-center text-sm text-on-surface-variant flex flex-col items-center gap-4">
+        <a 
+          href="https://instagram.com/berry_de_lacreme" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="flex items-center gap-2 hover:text-primary transition-colors font-bold"
+        >
+          <Instagram className="w-5 h-5" />
+          @berry_de_lacreme
+        </a>
         <p>© 2024 Berry De Lacreme. All rights reserved.</p>
       </footer>
 
