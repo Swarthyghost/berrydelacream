@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useProducts } from '../hooks/useProducts';
 import { Product, CartItem } from '../types';
 
+const GHANA_REVIEWS = [
+  { name: 'Kwame Mensah', location: 'Osu', quote: '"The best parfait I\'ve ever had. Fresh fruit with every bite. Will absolutely order again!"' },
+  { name: 'Abena Osei', location: 'East Legon', quote: '"Highly recommended. The natural sweetness and rich texture is exactly what I was looking for. Perfect for a quick healthy breakfast!"' },
+  { name: 'Kojo Addo', location: 'Airport Residential', quote: '"Their fresh cold-pressed juices are simply amazing. So refreshing after a morning run!"' },
+  { name: 'Esi Ansah', location: 'Spintex', quote: '"I love the crunchiness of their signature granola. Berry De Lacreme never disappoints."' },
+  { name: 'Yaw Boakye', location: 'Achimota', quote: '"Great packaging and very fresh ingredients. My colleagues and I order every Friday!"' },
+  { name: 'Akosua Prah', location: 'Cantonments', quote: '"The unsweetened parfaits are my favorite. A perfectly healthy treat for guilt-free snacking."' },
+  { name: 'Kofi Bempah', location: 'Labone', quote: '"Absolutely delicious! The blend of yogurt and fresh strawberries is just perfect."' },
+  { name: 'Ama Serwaa', location: 'Dansoman', quote: '"Best delivery service and amazing taste. I highly recommend the combo juices."' },
+  { name: 'Kwesi Appiah', location: 'Dzorwulu', quote: '"A delightful experience every single time. It\'s the highlight of my mornings."' },
+  { name: 'Yaa Asantewaa', location: 'Tema', quote: '"The portion sizes are generous and it tastes phenomenal. Best parfait in Accra!"' },
+];
+
 // ─── Reusable Product Card ────────────────────────────────────────────────────
-function ProductCard({ product, onAdd }: { product: Product; onAdd: () => void }) {
+function ProductCard({ product, onAdd }: { product: Product; onAdd: (e: React.MouseEvent) => void }) {
   return (
     <div className="bg-white rounded-2xl p-4 border border-outline-variant/50 hover:shadow-xl transition-all group flex flex-col">
       <div className="aspect-square bg-surface-container-low rounded-xl mb-4 overflow-hidden">
@@ -17,14 +30,15 @@ function ProductCard({ product, onAdd }: { product: Product; onAdd: () => void }
       </div>
       <h3 className="font-bold text-base text-on-surface leading-tight mb-1">{product.name}</h3>
       {product.size && <p className="text-xs text-on-surface-variant mb-3">{product.size}</p>}
-      <div className="flex items-center justify-between mt-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-auto gap-3 sm:gap-0">
         <span className="font-bold text-lg text-secondary">GH₵{product.price}</span>
         <button
           onClick={onAdd}
           aria-label={`Add ${product.name} to basket`}
-          className="w-10 h-10 rounded-full bg-secondary text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all"
+          className="w-full sm:w-auto px-4 py-2 rounded-full bg-secondary text-white flex items-center justify-center gap-2 shadow-md hover:brightness-110 active:scale-95 transition-all"
         >
-          <span className="material-symbols-outlined text-xl">add</span>
+          <span className="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+          <span className="font-bold text-sm">Add to Cart</span>
         </button>
       </div>
     </div>
@@ -32,7 +46,7 @@ function ProductCard({ product, onAdd }: { product: Product; onAdd: () => void }
 }
 
 // ─── Extras Row Card ──────────────────────────────────────────────────────────
-function ExtraCard({ product, onAdd }: { product: Product; onAdd: () => void }) {
+function ExtraCard({ product, onAdd }: { product: Product; onAdd: (e: React.MouseEvent) => void }) {
   return (
     <div className="bg-surface-container-low p-4 rounded-xl flex justify-between items-center border border-outline-variant/20">
       <div>
@@ -54,7 +68,7 @@ function ExtraCard({ product, onAdd }: { product: Product; onAdd: () => void }) 
 }
 
 // ─── Combo Row Card ───────────────────────────────────────────────────────────
-function ComboCard({ product, onAdd }: { product: Product; onAdd: () => void }) {
+function ComboCard({ product, onAdd }: { product: Product; onAdd: (e: React.MouseEvent) => void }) {
   return (
     <div className="bg-surface-container-low p-4 sm:p-6 rounded-2xl flex justify-between items-center hover:bg-surface-container-high transition-all gap-2">
       <div className="min-w-0">
@@ -79,9 +93,56 @@ export default function Storefront() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  const [flyingItems, setFlyingItems] = useState<{id: string, startX: number, startY: number, endX: number, endY: number, image: string}[]>([]);
   const { products } = useProducts();
 
-  const handleAddToCart = (product: Product) => {
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentReviewIndex((prev) => (prev + 1) % GHANA_REVIEWS.length);
+    }, 10000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const triggerFlyToCart = (e: React.MouseEvent, image: string) => {
+    const startX = e.clientX;
+    const startY = e.clientY;
+    
+    let endX = window.innerWidth / 2;
+    let endY = window.innerHeight;
+    
+    let cartIcon = document.getElementById('cart-icon-desktop');
+    if (window.innerWidth < 768) {
+      const mobileCart = document.getElementById('cart-icon-mobile');
+      if (mobileCart) cartIcon = mobileCart;
+    }
+    
+    if (cartIcon) {
+      const rect = cartIcon.getBoundingClientRect();
+      endX = rect.left + rect.width / 2;
+      endY = rect.top + rect.height / 2;
+    }
+
+    const newItem = {
+      id: Date.now().toString() + Math.random().toString(),
+      startX,
+      startY,
+      endX,
+      endY,
+      image
+    };
+
+    setFlyingItems((prev) => [...prev, newItem]);
+
+    setTimeout(() => {
+      setFlyingItems((prev) => prev.filter((item) => item.id !== newItem.id));
+    }, 800);
+  };
+
+  const handleAddToCart = (product: Product, e?: React.MouseEvent) => {
+    if (e) {
+      triggerFlyToCart(e, product.image || "https://images.unsplash.com/photo-1571216301397-6a45749f76a5?auto=format&fit=crop&w=400&q=80");
+    }
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
@@ -285,6 +346,7 @@ export default function Storefront() {
           </button>
           {/* Cart icon — opens drawer on mobile, scrolls on desktop */}
           <button
+            id="cart-icon-desktop"
             onClick={() => {
               if (window.innerWidth < 768) {
                 setMobileCartOpen(true);
@@ -308,7 +370,7 @@ export default function Storefront() {
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <section className="relative w-full pt-28 sm:pt-32 pb-16 px-4 sm:px-8 md:px-16 max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-0 min-h-[85vh]">
         <div className="w-full md:w-1/2 flex flex-col z-10 text-center md:text-left items-center md:items-start">
-          <h1 className="text-[4rem] leading-[0.9] sm:text-7xl md:text-8xl lg:text-[10rem] font-extrabold text-primary mb-6 md:leading-[0.95] tracking-tighter">
+          <h1 className="text-[5rem] leading-[0.85] sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[13rem] font-black text-primary mb-6 md:leading-[0.85] tracking-tighter drop-shadow-2xl">
             Fresh<br/>Parfaits
           </h1>
           <p className="text-on-surface-variant text-sm sm:text-base max-w-sm sm:max-w-md mb-8 leading-relaxed font-medium">
@@ -316,7 +378,7 @@ export default function Storefront() {
           </p>
           <div className="flex flex-wrap items-center gap-3 justify-center md:justify-start">
             <button
-              onClick={() => heroProduct && handleAddToCart(heroProduct)}
+              onClick={(e) => heroProduct && handleAddToCart(heroProduct, e)}
               className="bg-secondary text-white px-7 py-3 rounded-full font-bold shadow-lg hover:brightness-110 active:scale-95 transition-all text-sm sm:text-base"
             >
               Buy Now
@@ -402,17 +464,17 @@ export default function Storefront() {
 
             <h4 className="text-base sm:text-lg font-bold text-on-surface-variant mb-4 mt-6">Unsweetened Parfait</h4>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              {parfaitUnsweetened.map(p => <ProductCard key={p.id} product={p} onAdd={() => handleAddToCart(p)} />)}
+              {parfaitUnsweetened.map(p => <ProductCard key={p.id} product={p} onAdd={(e) => handleAddToCart(p, e)} />)}
             </div>
 
             <h4 className="text-base sm:text-lg font-bold text-on-surface-variant mb-4 mt-8">Sweetened Parfait</h4>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              {parfaitSweetened.map(p => <ProductCard key={p.id} product={p} onAdd={() => handleAddToCart(p)} />)}
+              {parfaitSweetened.map(p => <ProductCard key={p.id} product={p} onAdd={(e) => handleAddToCart(p, e)} />)}
             </div>
 
             <h4 className="text-base sm:text-lg font-bold text-on-surface-variant mb-4 mt-8">Extras</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {extras.map(p => <ExtraCard key={p.id} product={p} onAdd={() => handleAddToCart(p)} />)}
+              {extras.map(p => <ExtraCard key={p.id} product={p} onAdd={(e) => handleAddToCart(p, e)} />)}
             </div>
           </div>
 
@@ -422,12 +484,12 @@ export default function Storefront() {
 
             <h4 className="text-base sm:text-lg font-bold text-on-surface-variant mb-4 mt-6">Single Juices</h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 mb-6">
-              {singleJuices.map(p => <ProductCard key={p.id} product={p} onAdd={() => handleAddToCart(p)} />)}
+              {singleJuices.map(p => <ProductCard key={p.id} product={p} onAdd={(e) => handleAddToCart(p, e)} />)}
             </div>
 
             <h4 className="text-base sm:text-lg font-bold text-on-surface-variant mb-4 mt-8">Juice Combos</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {comboJuices.map(p => <ComboCard key={p.id} product={p} onAdd={() => handleAddToCart(p)} />)}
+              {comboJuices.map(p => <ComboCard key={p.id} product={p} onAdd={(e) => handleAddToCart(p, e)} />)}
             </div>
           </div>
         </div>
@@ -443,38 +505,15 @@ export default function Storefront() {
       {/* ── Testimonials ────────────────────────────────────────────────────── */}
       <section id="testimonials" className="w-full max-w-[1200px] mx-auto py-20 px-4 sm:px-8 text-center bg-surface-container-lowest sm:rounded-[3rem] my-10 sm:border border-outline-variant/30 sm:shadow-sm scroll-mt-24">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-14 text-on-surface">What Our Customers Say</h2>
-        <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-10 lg:gap-16 px-4">
-          {[
-            { name: 'Elizabeth Thomas', photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&q=80', quote: '"Highly recommended. The natural sweetness and rich texture is exactly what I was looking for. Perfect for a quick healthy breakfast!"' },
-            { name: 'Chris William', photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80', quote: '"The best parfait I\'ve ever had. Fresh fruit with every bite. Will absolutely order again!"' },
-          ].map((t) => (
-            <div key={t.name} className="flex flex-col items-center max-w-sm mx-auto group bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-outline-variant/20 relative mt-6 md:mt-0">
-              <div className="absolute -top-6 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg font-serif text-4xl leading-none pt-4">"</div>
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-primary/10 p-1 mb-5 overflow-hidden group-hover:border-primary/40 transition-colors duration-500">
-                <img src={t.photo} alt={t.name} className="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-700" />
-              </div>
-              <h4 className="font-bold text-lg mb-3 text-on-surface">{t.name}</h4>
-              <p className="text-base text-on-surface-variant leading-relaxed italic">{t.quote}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Newsletter ──────────────────────────────────────────────────────── */}
-      <section className="w-full max-w-[800px] mx-auto py-16 px-4 sm:px-8">
-        <div className="bg-surface-container-low p-8 sm:p-12 rounded-3xl text-center relative overflow-hidden">
-          <div className="relative z-10">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Subscribe to Our Newsletter</h2>
-            <p className="text-on-surface-variant text-sm mb-8">Get notified of seasonal specials and new combos first.</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="px-5 py-3.5 rounded-full border border-outline-variant bg-white w-full sm:min-w-[260px] focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-              />
-              <button className="bg-secondary text-white px-7 py-3.5 rounded-full font-bold shadow-md hover:brightness-110 transition-all text-sm whitespace-nowrap">
-                Subscribe
-              </button>
+        <div className="flex justify-center px-4">
+          <div key={currentReviewIndex} className="flex flex-col items-center max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-outline-variant/20 relative animate-in fade-in duration-700 min-h-[250px] justify-center">
+            <div className="absolute -top-6 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg font-serif text-4xl leading-none pt-4">"</div>
+            <p className="text-lg md:text-2xl text-on-surface-variant leading-relaxed italic mb-8">
+              {GHANA_REVIEWS[currentReviewIndex].quote}
+            </p>
+            <div className="flex flex-col items-center">
+              <h4 className="font-bold text-xl mb-1 text-on-surface">{GHANA_REVIEWS[currentReviewIndex].name}</h4>
+              <span className="text-sm font-bold tracking-widest text-primary uppercase">{GHANA_REVIEWS[currentReviewIndex].location}</span>
             </div>
           </div>
         </div>
@@ -488,6 +527,7 @@ export default function Storefront() {
       {/* ── Mobile floating cart button ─────────────────────────────────────── */}
       {totalQty > 0 && (
         <button
+          id="cart-icon-mobile"
           onClick={() => setMobileCartOpen(true)}
           className="fixed bottom-6 left-1/2 -translate-x-1/2 md:hidden z-40 flex items-center gap-2 bg-secondary text-white px-6 py-3.5 rounded-full font-bold shadow-[0_8px_24px_rgba(59,123,50,0.4)] hover:brightness-110 active:scale-95 transition-all"
         >
@@ -495,6 +535,25 @@ export default function Storefront() {
           {totalQty} item{totalQty > 1 ? 's' : ''} — GH₵{subtotal}
         </button>
       )}
+
+      {/* ── Fly-to-Cart Animations ──────────────────────────────────────────── */}
+      {flyingItems.map((item) => (
+        <div
+          key={item.id}
+          className="fixed z-[9999] pointer-events-none rounded-full overflow-hidden shadow-2xl border-2 border-primary bg-white"
+          style={{
+            width: '50px',
+            height: '50px',
+            left: item.startX - 25,
+            top: item.startY - 25,
+            '--end-x': `${item.endX - item.startX}px`,
+            '--end-y': `${item.endY - item.startY}px`,
+            animation: 'flyToCart 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards'
+          } as React.CSSProperties}
+        >
+          <img src={item.image} alt="flying product" className="w-full h-full object-cover" />
+        </div>
+      ))}
     </div>
   );
 }

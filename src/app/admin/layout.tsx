@@ -9,18 +9,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <aside className="fixed left-0 top-0 h-screen w-64 bg-surface-container-low flex flex-col gap-2 py-4 z-40">
         <div className="font-headline-md text-headline-md text-primary px-4 py-6 font-bold">Berry Admin</div>
         <nav className="flex-grow">
-          {/* Active: Dashboard */}
-          <a className="bg-secondary-container text-on-secondary-container font-bold rounded-lg mx-2 flex items-center gap-3 px-4 py-3 cursor-pointer transition-all" href="/admin">
-            <span className="material-symbols-outlined">dashboard</span>
-            <span className="font-label-md text-label-md">Dashboard</span>
-          </a>
-          <a className="text-on-surface-variant hover:bg-surface-container-high mx-2 rounded-lg flex items-center gap-3 px-4 py-3 cursor-pointer transition-all" href="/admin/orders">
-            <span className="material-symbols-outlined">shopping_bag</span>
-            <span className="font-label-md text-label-md">Orders</span>
-          </a>
-          <a className="text-on-surface-variant hover:bg-surface-container-high mx-2 rounded-lg flex items-center gap-3 px-4 py-3 cursor-pointer transition-all" href="/admin/menu">
+          {/* Active: Menu Manager */}
+          <a className="bg-secondary-container text-on-secondary-container font-bold rounded-lg mx-2 flex items-center gap-3 px-4 py-3 cursor-pointer transition-all" href="/admin/menu">
             <span className="material-symbols-outlined">restaurant_menu</span>
             <span className="font-label-md text-label-md">Menu Manager</span>
+          </a>
+          <a className="text-on-surface-variant hover:bg-surface-container-high mx-2 rounded-lg flex items-center gap-3 px-4 py-3 cursor-pointer transition-all mt-2 border-t border-outline-variant/20" href="/">
+            <span className="material-symbols-outlined">storefront</span>
+            <span className="font-label-md text-label-md">Go to Storefront</span>
           </a>
         </nav>
         <div className="mt-auto px-2">

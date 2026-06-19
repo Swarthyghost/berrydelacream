@@ -4,13 +4,13 @@ import { initializeFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBPVkZjI4fGBjSjfyCm9CA7N3dtXriWAVg",
-  authDomain: "berrydelacream.firebaseapp.com",
-  projectId: "berrydelacream",
-  storageBucket: "berrydelacream.firebasestorage.app",
-  messagingSenderId: "308552564895",
-  appId: "1:308552564895:web:58477fcaff5fa55c2aa2aa",
-  measurementId: "G-NHSHX76E5K"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);

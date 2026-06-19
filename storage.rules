@@ -1,6 +1,12 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    // Product images — public read, authenticated write only
+    match /products/{imageId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    // Deny everything else by default
     match /{allPaths=**} {
       allow read: if true;
       allow write: if request.auth != null;

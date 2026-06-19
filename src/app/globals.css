@@ -132,3 +132,18 @@
     font-weight: 600;
   }
 }
+
+@keyframes flyToCart {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(calc(var(--end-x) * 0.5), calc(var(--end-y) * 0.5 - 100px)) scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--end-x), var(--end-y)) scale(0.2);
+    opacity: 0;
+  }
+}
